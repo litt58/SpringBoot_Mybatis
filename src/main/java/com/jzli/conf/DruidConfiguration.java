@@ -1,4 +1,4 @@
-package com.jzli.util;
+package com.jzli.conf;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
