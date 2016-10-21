@@ -3,8 +3,6 @@ package com.jzli.mapper;
 import com.jzli.bean.User;
 import org.apache.ibatis.annotations.*;
 
-import java.util.List;
-
 /**
  * =======================================================
  *
@@ -23,17 +21,14 @@ public interface UserMapper {
             @Result(property = "location", column = "location"),
             @Result(property = "count", column = "count")
     })
-    List<User> getUserById(@Param("id") int id);
+    User getUserById(@Param("id") int id);
 
     @Update("update p_user set count = count+1 where id=#{id}")
     int updateUserCountById(@Param("id") int id);
 
-    @Insert("insert into p_user(name) values(#{name})")
-    int insertUser(@Param("name") String name);
+    @Insert("insert into p_user(id,name) values(#{id},#{name})")
+    int insertUser(@Param("id") int id, @Param("name") String name);
 
     @Delete("delete from p_user where id = #{id}")
     int deleteUser(@Param("id") int id);
-
-    @Select("SELECT @@IDENTITY as id")
-    int getLastId();
 }

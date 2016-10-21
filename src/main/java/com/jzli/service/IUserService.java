@@ -2,8 +2,6 @@ package com.jzli.service;
 
 import com.jzli.bean.User;
 
-import java.util.List;
-
 /**
  * =======================================================
  *
@@ -15,11 +13,11 @@ import java.util.List;
  * ========================================================
  */
 public interface IUserService {
-    List<User> getUserById(int id);
+    User getUserById(int id);
 
     void updateUserCountById(int id);
 
-    List<User> createUser(String name);
+    User createUser(int id, String name);
 
     void deleteUser(int id);
 

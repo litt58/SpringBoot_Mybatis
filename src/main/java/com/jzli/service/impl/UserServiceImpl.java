@@ -4,10 +4,11 @@ import com.jzli.bean.User;
 import com.jzli.mapper.UserMapper;
 import com.jzli.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * =======================================================
@@ -24,11 +25,14 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserMapper userMapper;
 
-    public List<User> getUserById(int id) {
-        List<User> list = userMapper.getUserById(id);
-        return list;
+    @Cacheable(key = "#id", value = "user")
+    public User getUserById(int id) {
+        System.err.println("没有走缓存！" + id);
+        User user = userMapper.getUserById(id);
+        return user;
     }
 
+    @CacheEvict(key = "#id", value = "user")
     @Transactional
     public void updateUserCountById(int id) {
         userMapper.updateUserCountById(id);
@@ -41,17 +45,17 @@ public class UserServiceImpl implements IUserService {
 //        }
     }
 
+    @CachePut(key = "#id", value = "user")
     @Transactional
-    public List<User> createUser(String name) {
-        int i = userMapper.insertUser(name);
+    public User createUser(int id, String name) {
+        int i = userMapper.insertUser(id, name);
         if (i == 1) {
-            int id = userMapper.getLastId();
-            List<User> list = userMapper.getUserById(id);
-            return list;
+            return userMapper.getUserById(id);
         }
         return null;
     }
 
+    @CacheEvict(key = "#id", value = "user")
     @Transactional
     public void deleteUser(int id) {
         userMapper.deleteUser(id);
