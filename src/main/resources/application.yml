@@ -37,7 +37,7 @@ spring:
     loginPassword: jzli
 
   redis:
-    host: 10.10.20.112
+    host: localhost
     port: 6379
     timeout: 3000
     pool:
