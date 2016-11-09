@@ -25,14 +25,14 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private UserMapper userMapper;
 
-    @Cacheable(key = "#id", value = "user")
+    @Cacheable(key = "#id", value = "com.jzli.bean.User")
     public User getUserById(int id) {
         System.err.println("没有走缓存！" + id);
         User user = userMapper.getUserById(id);
         return user;
     }
 
-    @CacheEvict(key = "#id", value = "user")
+    @CacheEvict(key = "#id", value = "com.jzli.bean.User")
     @Transactional
     public void updateUserCountById(int id) {
         userMapper.updateUserCountById(id);
@@ -45,7 +45,7 @@ public class UserServiceImpl implements IUserService {
 //        }
     }
 
-    @CachePut(key = "#id", value = "user")
+    @CachePut(key = "#id", value = "com.jzli.bean.User")
     @Transactional
     public User createUser(int id, String name) {
         int i = userMapper.insertUser(id, name);
@@ -55,7 +55,7 @@ public class UserServiceImpl implements IUserService {
         return null;
     }
 
-    @CacheEvict(key = "#id", value = "user")
+    @CacheEvict(key = "#id", value = "com.jzli.bean.User")
     @Transactional
     public void deleteUser(int id) {
         userMapper.deleteUser(id);
