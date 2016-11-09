@@ -36,5 +36,16 @@ spring:
     loginUsername: admin
     loginPassword: jzli
 
+  redis:
+    host: 10.10.20.112
+    port: 6379
+    timeout: 3000
+    pool:
+      max-idle: 300
+      max-total: 1000
+      max-wait: 1000
+      testOnBorrow: true
+      testOnReturn: true
+      max-active: 1000
 
 

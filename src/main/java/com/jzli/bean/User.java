@@ -1,5 +1,7 @@
 package com.jzli.bean;
 
+import java.io.Serializable;
+
 /**
  * =======================================================
  *
@@ -10,7 +12,7 @@ package com.jzli.bean;
  * @Description ：
  * ========================================================
  */
-public class User {
+public class User implements Serializable{
     private int id;
     private String name;
     private String location;
