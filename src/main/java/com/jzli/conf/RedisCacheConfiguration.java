@@ -52,6 +52,10 @@ public class RedisCacheConfiguration {
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(factory);
+
+        RedisSerializer redisSerializer = new MsgPackRedisSerializer();
+        redisTemplate.setKeySerializer(redisSerializer);
+        redisTemplate.setHashKeySerializer(redisSerializer);
         return redisTemplate;
     }
 }
