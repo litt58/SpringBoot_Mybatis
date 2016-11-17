@@ -29,9 +29,7 @@ import java.lang.reflect.Method;
  */
 @Configuration
 @EnableCaching
-public class RedisCacheConfiguration extends CachingConfigurerSupport {
-
-    private final static String CACHE_KEY_PREFIX = "jycloudst";
+public class RedisCacheConfiguration {
 
     /**
      * 缓存管理器.
@@ -46,24 +44,6 @@ public class RedisCacheConfiguration extends CachingConfigurerSupport {
         return redisCacheManager;
     }
 
-    @Bean
-    public KeyGenerator keyGenerator() {
-        return new KeyGenerator() {
-            @Override
-            public Object generate(Object target, Method method, Object... params) {
-                if (params.length == 0) {
-                    return CACHE_KEY_PREFIX + method.getName();
-                }
-                if (params.length == 1) {
-                    Object param = params[0];
-                    if (param != null && !param.getClass().isArray()) {
-                        return CACHE_KEY_PREFIX + method.getName() + "_" + param;
-                    }
-                }
-                return CACHE_KEY_PREFIX + method.getName() + " [" + StringUtils.arrayToCommaDelimitedString(params) + "]";
-            }
-        };
-    }
 
     /**
      * redis模板操作类,类似于jdbcTemplate的一个类;
@@ -81,29 +61,9 @@ public class RedisCacheConfiguration extends CachingConfigurerSupport {
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(factory);
-
-        redisTemplate.setValueSerializer(new RedisSerializer<Object>() {
-            @Override
-            public byte[] serialize(Object object) throws SerializationException {
-                if (object == null) {
-                    return new byte[0];
-                }
-                if (!(object instanceof Serializable)) {
-                    throw new IllegalArgumentException("RedisSerializer.serialize requires a Serializable payload "
-                            + "but received an object of type [" + object.getClass().getName() + "]");
-                }
-                return SerializationUtils.serialize((Serializable) object);
-            }
-
-            @Override
-            public Object deserialize(byte[] bytes) throws SerializationException {
-                if (bytes == null || bytes.length == 0) {
-                    return null;
-                }
-                return SerializationUtils.deserialize(bytes);
-            }
-        });
-
+        MsgPackRedisSerializer<Object> msgPackRedisSerializer = new MsgPackRedisSerializer<>();
+        redisTemplate.setKeySerializer(msgPackRedisSerializer);
+        redisTemplate.setValueSerializer(msgPackRedisSerializer);
         redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }

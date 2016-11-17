@@ -1,5 +1,7 @@
 package com.jzli.bean;
 
+import org.msgpack.annotation.Message;
+
 import java.io.Serializable;
 
 /**
@@ -12,6 +14,7 @@ import java.io.Serializable;
  * @Description ：
  * ========================================================
  */
+@Message
 public class User implements Serializable{
     private int id;
     private String name;
