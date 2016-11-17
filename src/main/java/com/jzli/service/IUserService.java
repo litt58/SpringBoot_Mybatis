@@ -1,6 +1,9 @@
 package com.jzli.service;
 
 import com.jzli.bean.User;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * =======================================================
@@ -13,12 +16,16 @@ import com.jzli.bean.User;
  * ========================================================
  */
 public interface IUserService {
+    @Cacheable(key = "#id", value = "users")
     User getUserById(int id);
 
-    void updateUserCountById(int id);
+    @CachePut(key = "#id", value = "users")
+    User updateUserCountById(int id);
 
+    @CachePut(key = "#id", value = "users")
     User createUser(int id, String name);
 
+    @CacheEvict(key = "#id", value = "users")
     void deleteUser(int id);
 
 }

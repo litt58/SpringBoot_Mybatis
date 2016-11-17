@@ -41,8 +41,7 @@ class UserController {
     @RequestMapping("/{id}/count")
     @ApiOperation(value = "更新指定Id用户的次数", httpMethod = "GET", notes = "更新指定Id用户的次数")
     public Object updateUserCount(@ApiParam(required = true, name = "id", value = "用户Id") @PathVariable(value = "id") int id) {
-        userService.updateUserCountById(id);
-        return userService.getUserById(id);
+        return userService.updateUserCountById(id);
     }
 
     @RequestMapping("/create/{id}/{name}")
