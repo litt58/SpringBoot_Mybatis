@@ -1,6 +1,5 @@
 package com.jzli.conf;
 
-import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.msgpack.MessagePack;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
@@ -18,22 +17,11 @@ import java.io.IOException;
  * ========================================================
  */
 public class MsgPackRedisSerializer<T> implements RedisSerializer<T> {
-    private MessagePack msgPack;
-
-    private GenericObjectPool<MessagePack> pool;
-
-    public void setPool(GenericObjectPool<MessagePack> pool) {
-        this.pool = pool;
-    }
+    private MessagePack msgPack = new MessagePack();
 
     public byte[] serialize(T t) throws SerializationException {
-        if(t==null)
+        if (t == null)
             return new byte[0];
-        try {
-            msgPack = pool.borrowObject();
-        } catch (Exception e1) {
-            msgPack = new MessagePack();
-        }
         try {
             return msgPack.write(t);
         } catch (IOException e) {
@@ -44,17 +32,10 @@ public class MsgPackRedisSerializer<T> implements RedisSerializer<T> {
 
     public T deserialize(byte[] bytes) throws SerializationException {
         try {
-            msgPack = pool.borrowObject();
-        } catch (Exception e1) {
-            msgPack = new MessagePack();
-        }
-        try {
-            T t = (T)msgPack.read(bytes);
-            pool.returnObject(msgPack);
+            T t = (T) msgPack.read(bytes);
             return t;
         } catch (IOException e) {
             e.printStackTrace();
-            pool.returnObject(msgPack);
             return null;
         }
     }

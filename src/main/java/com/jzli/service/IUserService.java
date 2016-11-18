@@ -16,16 +16,16 @@ import org.springframework.cache.annotation.Cacheable;
  * ========================================================
  */
 public interface IUserService {
-    @Cacheable(key = "#id", value = "users")
+    @Cacheable(value = "users", keyGenerator = "keyGenerator")
     User getUserById(int id);
 
-    @CachePut(key = "#id", value = "users")
+    @CachePut(value = "users", keyGenerator = "keyGenerator")
     User updateUserCountById(int id);
 
-    @CachePut(key = "#id", value = "users")
+    @CachePut(value = "users", keyGenerator = "keyGenerator")
     User createUser(int id, String name);
 
-    @CacheEvict(key = "#id", value = "users")
+    @CacheEvict(value = "users", keyGenerator = "keyGenerator")
     void deleteUser(int id);
 
 }
