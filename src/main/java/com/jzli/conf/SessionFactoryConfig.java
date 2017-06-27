@@ -27,7 +27,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableTransactionManagement
-public class SessionFactoryConfig implements EnvironmentAware,TransactionManagementConfigurer {
+public class SessionFactoryConfig implements EnvironmentAware {
 	private static Logger logger = LoggerFactory.getLogger(SessionFactoryConfig.class);
 	private RelaxedPropertyResolver propertyResolver;
 
@@ -55,9 +55,9 @@ public class SessionFactoryConfig implements EnvironmentAware,TransactionManagem
 		}
 	}
 
-	@Bean
-	public PlatformTransactionManager annotationDrivenTransactionManager() {
-		logger.info("数据库事务开启~~~~~~~~~~~~~~~~~~~~~~~~~~");
-		return new DataSourceTransactionManager(dataSource);
-	}
+//	@Bean
+//	public PlatformTransactionManager annotationDrivenTransactionManager() {
+//		logger.info("数据库事务开启~~~~~~~~~~~~~~~~~~~~~~~~~~");
+//		return new DataSourceTransactionManager(dataSource);
+//	}
 }

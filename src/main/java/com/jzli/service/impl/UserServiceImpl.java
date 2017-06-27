@@ -54,7 +54,7 @@ public class UserServiceImpl implements IUserService {
         userMapper.deleteUser(id);
     }
 
-    public Object list(Integer pageNo, Integer pageSize) {
+    public PageInfo list(Integer pageNo, Integer pageSize) {
         List<User> list;
         if (pageNo == null || pageNo <= 0) {
             pageNo = 1;
