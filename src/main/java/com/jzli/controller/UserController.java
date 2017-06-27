@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -56,4 +57,11 @@ class UserController {
         userService.deleteUser(id);
     }
 
+
+    @RequestMapping("/list")
+    @ApiOperation(value = "用户列表", httpMethod = "GET", notes = "用户列表")
+    public Object list(@ApiParam(name = "pageNo", value = "页数") @RequestParam(value = "pageNo", required = false) Integer pageNo,
+                       @ApiParam(name = "pageSize", value = "条数") @RequestParam(value = "pageSize", required = false) Integer pageSize) {
+        return userService.list(pageNo, pageSize);
+    }
 }
