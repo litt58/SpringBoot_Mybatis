@@ -1,11 +1,3 @@
-/**    
- * @Title: MybatisConfiguration.java  
- * @Package com.jyall.service.centerhouse.common  
- * @Description: TODO(用一句话描述该文件做什么)  
- * @author zhao.liang    
- * @date 2016年3月12日 下午1:34:13  
- * @version V1.0    
- */
 package com.jzli.conf;
 
 import org.apache.ibatis.session.SqlSessionFactory;
