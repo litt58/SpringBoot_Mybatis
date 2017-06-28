@@ -20,40 +20,36 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 
+import static org.apache.coyote.http11.Constants.a;
+
 /**
- * 
  * 获取第二个数据库的连接信息，在application.yml中配置，并指定特定的前缀
- * 
  */
 @Configuration
-@EnableTransactionManagement
 public class SessionFactoryConfig implements EnvironmentAware {
-	private static Logger logger = LoggerFactory.getLogger(SessionFactoryConfig.class);
-	private RelaxedPropertyResolver propertyResolver;
+    private static Logger logger = LoggerFactory.getLogger(SessionFactoryConfig.class);
+    private RelaxedPropertyResolver propertyResolver;
 
-    @Autowired
-	private DataSource dataSource;
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.propertyResolver = new RelaxedPropertyResolver(environment, "spring.mybatis.");
+    }
 
-	@Override
-	public void setEnvironment(Environment environment) {
-		this.propertyResolver = new RelaxedPropertyResolver(environment,"spring.mybatis.");
-	}
-
-	@Bean(name="sqlSessionFactory")
-	@Primary
-	public SqlSessionFactory sqlSessionFactory() {
-		try {
-			SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
-			sqlSessionFactory.setDataSource(dataSource);
+    @Bean(name = "sqlSessionFactory")
+    @Primary
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) {
+        try {
+            SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
+            sqlSessionFactory.setDataSource(dataSource);
             //获取mybatis-config.xml路径
             String config = propertyResolver.getProperty("config");
             sqlSessionFactory.setConfigLocation(new DefaultResourceLoader().getResource(config));
-			return sqlSessionFactory.getObject();
-		} catch (Exception e) {
-			logger.error("Could not confiure mybatis session factory",e);
-			return null;
-		}
-	}
+            return sqlSessionFactory.getObject();
+        } catch (Exception e) {
+            logger.error("Could not confiure mybatis session factory", e);
+            return null;
+        }
+    }
 
 //	@Bean
 //	public PlatformTransactionManager annotationDrivenTransactionManager() {

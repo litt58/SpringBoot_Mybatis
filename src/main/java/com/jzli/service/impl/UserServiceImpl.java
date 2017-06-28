@@ -52,6 +52,8 @@ public class UserServiceImpl implements IUserService {
     @Transactional
     public void deleteUser(int id) {
         userMapper.deleteUser(id);
+        int i=0;
+        i=10/i;
     }
 
     public PageInfo list(Integer pageNo, Integer pageSize) {
