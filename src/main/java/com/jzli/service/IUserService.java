@@ -28,4 +28,5 @@ public interface IUserService {
     @CacheEvict(value = "users", keyGenerator = "keyGenerator")
     void deleteUser(int id);
 
+    Object list(Integer pageNo, Integer pageSize);
 }
