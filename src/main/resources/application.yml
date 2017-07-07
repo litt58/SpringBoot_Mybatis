@@ -48,8 +48,4 @@ spring:
       testOnReturn: true
       max-active: 1000
 
-  mybatis:
-    typeAliasesPackage: tk.mapper.model
-    config: mybatis-config.xml
-    rows_per_transaction: 500
 
