@@ -8,9 +8,9 @@ server:
 spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://10.10.20.46:3306/46test?useUnicode=true&characterEncoding=UTF-8
-    username: jyall
-    password: jyall2015
+    url: jdbc:mysql://localhost/jzli?useUnicode=true&characterEncoding=UTF8MB4
+    username: root
+    password: root
     type: com.alibaba.druid.pool.DruidDataSource
     #初始化连接个数
     initialSize: 1
