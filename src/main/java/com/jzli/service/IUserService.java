@@ -29,4 +29,6 @@ public interface IUserService {
     void deleteUser(int id);
 
     Object list(Integer pageNo, Integer pageSize);
+
+    Object find(Integer pageNo, Integer pageSize,User user);
 }

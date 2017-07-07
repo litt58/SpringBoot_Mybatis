@@ -26,8 +26,8 @@ import java.lang.reflect.Method;
  * @Description ：
  * ========================================================
  */
-@Configuration
-@EnableCaching
+//@Configuration
+//@EnableCaching
 public class RedisCacheConfiguration extends CachingConfigurerSupport {
     private static final String perfix = "jycloudst-user-";
 

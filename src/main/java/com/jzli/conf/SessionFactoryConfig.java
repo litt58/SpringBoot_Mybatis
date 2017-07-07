@@ -25,7 +25,7 @@ import static org.apache.coyote.http11.Constants.a;
 /**
  * 获取第二个数据库的连接信息，在application.yml中配置，并指定特定的前缀
  */
-@Configuration
+//@Configuration
 public class SessionFactoryConfig implements EnvironmentAware {
     private static Logger logger = LoggerFactory.getLogger(SessionFactoryConfig.class);
     private RelaxedPropertyResolver propertyResolver;

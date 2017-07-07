@@ -34,6 +34,9 @@ public interface UserMapper {
     })
     List<User> list();
 
+    @SelectProvider(method = "find", type = UserMapperProvider.class)
+    List<User> find(User user);
+
     @Update("update p_user set count = count+1 where id=#{id}")
     int updateUserCountById(@Param("id") int id);
 

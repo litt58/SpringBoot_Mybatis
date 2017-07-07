@@ -67,4 +67,19 @@ public class UserServiceImpl implements IUserService {
         PageInfo result = new PageInfo<>(list);
         return result;
     }
+
+    @Override
+    public Object find(Integer pageNo, Integer pageSize, User user) {
+        List<User> list;
+        if (pageNo == null || pageNo <= 0) {
+            pageNo = 1;
+        }
+        if (pageSize == null || pageSize <= 0) {
+            pageSize = 10;
+        }
+        PageHelper.startPage(pageNo, pageSize, true);
+        list = userMapper.find(user);
+        PageInfo result = new PageInfo<>(list);
+        return result;
+    }
 }

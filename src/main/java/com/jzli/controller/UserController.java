@@ -1,5 +1,6 @@
 package com.jzli.controller;
 
+import com.jzli.bean.User;
 import com.jzli.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -63,5 +64,21 @@ class UserController {
     public Object list(@ApiParam(name = "pageNo", value = "页数") @RequestParam(value = "pageNo", required = false) Integer pageNo,
                        @ApiParam(name = "pageSize", value = "条数") @RequestParam(value = "pageSize", required = false) Integer pageSize) {
         return userService.list(pageNo, pageSize);
+    }
+
+    @RequestMapping("/find")
+    @ApiOperation(value = "用户列表", httpMethod = "GET", notes = "用户列表")
+    public Object find(@ApiParam(name = "pageNo", value = "页数") @RequestParam(value = "pageNo", required = false) Integer pageNo,
+                       @ApiParam(name = "pageSize", value = "条数") @RequestParam(value = "pageSize", required = false) Integer pageSize,
+                       @ApiParam(name = "id", value = "id") @RequestParam(value = "id", required = false) Integer id,
+                       @ApiParam(name = "name", value = "name") @RequestParam(value = "name", required = false) String name,
+                       @ApiParam(name = "location", value = "location") @RequestParam(value = "location", required = false) String location,
+                       @ApiParam(name = "count", value = "count") @RequestParam(value = "count", required = false) Integer count) {
+        User user = new User();
+        user.setId(id);
+        user.setName(name);
+        user.setLocation(location);
+        user.setCount(count);
+        return userService.find(pageNo, pageSize,user);
     }
 }
