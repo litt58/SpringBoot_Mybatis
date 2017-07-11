@@ -8,7 +8,7 @@ server:
 spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/jzli?useUnicode=true
+    url: jdbc:mysql://localhost:3306/jzli?useUnicode=true&autoReconnect=true
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
