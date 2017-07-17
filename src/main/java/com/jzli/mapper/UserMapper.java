@@ -3,6 +3,7 @@ package com.jzli.mapper;
 import com.jzli.bean.User;
 import org.apache.ibatis.annotations.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -33,6 +34,9 @@ public interface UserMapper {
             @Result(property = "count", column = "count")
     })
     List<User> list();
+
+    @Select("SELECT id,count FROM p_user ")
+    List<HashMap> getAll();
 
     @SelectProvider(method = "find", type = UserMapperProvider.class)
     List<User> find(User user);

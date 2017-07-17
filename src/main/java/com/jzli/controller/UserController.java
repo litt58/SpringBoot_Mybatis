@@ -79,6 +79,12 @@ class UserController {
         user.setName(name);
         user.setLocation(location);
         user.setCount(count);
-        return userService.find(pageNo, pageSize,user);
+        return userService.find(pageNo, pageSize, user);
+    }
+
+    @RequestMapping("/getAll")
+    @ApiOperation(value = "用户列表", httpMethod = "GET", notes = "用户列表")
+    public Object list() {
+        return userService.getAll();
     }
 }

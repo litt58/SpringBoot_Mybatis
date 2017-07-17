@@ -82,4 +82,9 @@ public class UserServiceImpl implements IUserService {
         PageInfo result = new PageInfo<>(list);
         return result;
     }
+
+    @Override
+    public Object getAll() {
+        return userMapper.getAll();
+    }
 }
