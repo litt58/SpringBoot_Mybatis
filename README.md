@@ -1,0 +1,2 @@
+# SpringBoot_Mybatis
+SpringBoot集成MyBatis的事例，使用druid作为数据库连接池，druid有着非常强大的sql监控功能，使用注解的方式配置sql
