@@ -33,4 +33,6 @@ public interface IUserService {
     Object find(Integer pageNo, Integer pageSize,User user);
 
     Object getAll();
+
+    void test();
 }

@@ -5,11 +5,16 @@ import com.github.pagehelper.PageInfo;
 import com.jzli.bean.User;
 import com.jzli.mapper.UserMapper;
 import com.jzli.service.IUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * =======================================================
@@ -23,6 +28,9 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements IUserService {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+    private int i = 1;
+
     @Autowired
     private UserMapper userMapper;
 
@@ -86,5 +94,18 @@ public class UserServiceImpl implements IUserService {
     @Override
     public Object getAll() {
         return userMapper.getAll();
+    }
+
+    @Scheduled(cron = "0/5 * * * * ?")
+    @Async
+    public void test() {
+        int j = i++;
+        logger.info("开始" + j);
+        try {
+            TimeUnit.SECONDS.sleep(11);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        logger.info("结束" + j);
     }
 }
