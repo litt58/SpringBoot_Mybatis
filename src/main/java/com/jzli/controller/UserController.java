@@ -6,10 +6,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * =======================================================
@@ -26,7 +30,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "/user", description = "用户")
 class UserController {
     @Autowired
+    @Qualifier("userServiceImpl")
     private IUserService userService;
+    @Autowired
+    private List<IUserService> list;
+    @Autowired
+    private Map<String,IUserService> map;
 
     @RequestMapping("/welcome")
     @ApiOperation(value = "欢迎", httpMethod = "GET", notes = "欢迎")
