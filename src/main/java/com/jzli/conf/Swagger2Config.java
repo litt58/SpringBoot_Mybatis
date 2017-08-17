@@ -1,6 +1,7 @@
 package com.jzli.conf;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -42,8 +43,12 @@ public class Swagger2Config {
     }
 
     private Predicate<String> petstorePaths() {
-        return or(
-                regex("/user.*")
+//        return or(
+//                regex("/user.*")
+//        );
+        return Predicates.and(
+                Predicates.not(Predicates.or(regex("/error"))),
+                Predicates.or(regex("/*.*"))
         );
     }
 }
