@@ -32,10 +32,10 @@
 	</appender>
 
 	<appender name="infoDailyRollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>./logs/jy-info.log</file>
+		<file>./logs/info.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
-			<fileNamePattern>./logs/jy-info-%d{yyyyMMdd}.log</fileNamePattern>
+			<fileNamePattern>./logs/info-%d{yyyyMMdd}.log</fileNamePattern>
 			<!-- 保留30天的日志 -->
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
@@ -51,10 +51,10 @@
 	</appender>
 
 	<appender name="severeDailyRollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>./logs/jy-severe.log</file>
+		<file>./logs/severe.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!-- daily rollover -->
-			<fileNamePattern>./logs/jy-severe-%d{yyyyMMdd}.log</fileNamePattern>
+			<fileNamePattern>./logs/severe-%d{yyyyMMdd}.log</fileNamePattern>
 			<!-- 保留30天的日志 -->
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
@@ -68,7 +68,7 @@
 		</filter>
 	</appender>
 
-	<logger name="com.jyall" level="INFO">
+	<logger name="com.jzli" level="INFO">
 		<appender-ref ref="infoDailyRollingFile" />
 		<appender-ref ref="severeDailyRollingFile" />
 	</logger>
