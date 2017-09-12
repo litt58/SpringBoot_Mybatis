@@ -2,6 +2,7 @@ package com.jzli.conf;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -24,6 +25,7 @@ import static springfox.documentation.builders.PathSelectors.regex;
  * ========================================================
  */
 @Configuration
+@ConditionalOnProperty(name = "swagger.enable")
 @EnableSwagger2
 public class Swagger2Config {
     @Bean

@@ -2,7 +2,10 @@
 # Web容器配置
 server:
   port: 8082
-
+#是否开启swagger (true/false)
+swagger:
+  enable: true
+#Druid数据库配置
 spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
@@ -33,7 +36,7 @@ spring:
     #监控端登录用户名密码
     loginUsername: admin
     loginPassword: jzli
-
+#redis配置
   redis:
     host: localhost
     port: 6379
