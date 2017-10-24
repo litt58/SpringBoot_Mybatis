@@ -76,6 +76,9 @@ public class AccessLogAspect {
     private void showRequestParameter(JoinPoint joinPoint) {
         // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (ObjectUtils.isEmpty(attributes)) {
+            return;
+        }
         HttpServletRequest request = attributes.getRequest();
         String version = request.getHeader("version");
         String versionCode = request.getHeader("versionCode");

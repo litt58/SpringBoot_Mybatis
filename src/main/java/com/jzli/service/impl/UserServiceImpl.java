@@ -98,10 +98,13 @@ public class UserServiceImpl implements IUserService {
 
     @Scheduled(cron = "0/5 * * * * ?")
     @Async
+    @Transactional
     public void test() {
         int j = i++;
         logger.info("开始" + j);
         try {
+            updateUserCountById(1);
+            int i=1/0;
             TimeUnit.SECONDS.sleep(11);
         } catch (InterruptedException e) {
             e.printStackTrace();
