@@ -99,6 +99,9 @@ public class UserServiceImpl implements IUserService {
     @Scheduled(cron = "0/5 * * * * ?")
     @Async
     @Transactional
+    /**
+     * Spring的事务传播策略在内部方法调用时将不起作用
+     */
     public void test() {
         int j = i++;
         logger.info("开始" + j);
