@@ -2,6 +2,11 @@
 # Web容器配置
 server:
   port: 8082
+#热部署
+spring:
+  devtools:
+    restart:
+      enabled: true
 #是否开启swagger (true/false)
 swagger:
   enable: true
