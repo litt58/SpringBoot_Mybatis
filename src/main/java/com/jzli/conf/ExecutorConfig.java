@@ -7,9 +7,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 /**
  * =======================================================
@@ -27,15 +24,24 @@ public class ExecutorConfig implements AsyncConfigurer {
 
     @Override
     public Executor getAsyncExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setMaxPoolSize(20);
-        executor.setCorePoolSize(5);
-        executor.setQueueCapacity(100);
-        executor.setKeepAliveSeconds(30);
-        executor.setThreadNamePrefix("async-");
+        ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+        taskExecutor.setMaxPoolSize(20);
+        taskExecutor.setCorePoolSize(5);
+        taskExecutor.setQueueCapacity(100);
+        taskExecutor.setKeepAliveSeconds(30);
+        taskExecutor.setThreadNamePrefix("async-");
+        taskExecutor.setRejectedExecutionHandler((r, executor) -> {
+            if (!executor.isShutdown()) {
+                try {
+                    executor.getQueue().put(r);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         // Initialize the executor
-        executor.initialize();
-        return executor;
+        taskExecutor.initialize();
+        return taskExecutor;
     }
 
     @Override
