@@ -1,17 +1,16 @@
-# 参考 http://www.tuicool.com/articles/veUjQba
 # Web容器配置
 server:
-  port: 8082
-#热部署
-spring:
-  devtools:
-    restart:
-      enabled: true
+  port: 7777
 #是否开启swagger (true/false)
 swagger:
   enable: true
-#Druid数据库配置
+
 spring:
+  #热部署
+  devtools:
+      restart:
+        enabled: true
+  #Druid数据库配置
   datasource:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/jzli?useUnicode=true&autoReconnect=true
