@@ -40,7 +40,7 @@ class UserController {
     @RequestMapping("/welcome")
     @ApiOperation(value = "欢迎", httpMethod = "GET", notes = "欢迎")
     public String welcome() {
-        userService.test2();
+//        userService.test3();
         return "welcome";
     }
 

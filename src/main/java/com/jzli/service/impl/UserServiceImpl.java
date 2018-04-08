@@ -115,6 +115,9 @@ public class UserServiceImpl implements IUserService {
         logger.info("结束" + j);
     }
 
+    /**
+     * 参考:http://www.cnblogs.com/lanhzbupt/p/6346680.html
+     */
     public void test1() {
         //不走事物
 //        test();
@@ -128,5 +131,14 @@ public class UserServiceImpl implements IUserService {
      */
     public void test2() {
         test();
+    }
+
+    /**
+     * 子线程事务失效
+     */
+    public void test3() {
+        new Thread(() -> {
+            test();
+        });
     }
 }

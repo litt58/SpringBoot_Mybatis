@@ -30,7 +30,7 @@ public interface IUserService {
 
     Object list(Integer pageNo, Integer pageSize);
 
-    Object find(Integer pageNo, Integer pageSize,User user);
+    Object find(Integer pageNo, Integer pageSize, User user);
 
     Object getAll();
 
@@ -39,4 +39,6 @@ public interface IUserService {
     void test1();
 
     void test2();
+
+    void test3();
 }
