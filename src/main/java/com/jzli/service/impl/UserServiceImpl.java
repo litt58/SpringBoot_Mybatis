@@ -139,6 +139,6 @@ public class UserServiceImpl implements IUserService {
     public void test3() {
         new Thread(() -> {
             test();
-        });
+        }).start();
     }
 }
