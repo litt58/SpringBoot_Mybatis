@@ -7,9 +7,9 @@ import com.jzli.mapper.UserMapper;
 import com.jzli.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -96,7 +96,7 @@ public class UserServiceImpl implements IUserService {
         return userMapper.getAll();
     }
 
-    @Scheduled(cron = "0/5 * * * * ?")
+    //    @Scheduled(cron = "0/5 * * * * ?")
     @Async
     @Transactional
     /**
@@ -107,11 +107,19 @@ public class UserServiceImpl implements IUserService {
         logger.info("开始" + j);
         try {
             updateUserCountById(1);
-            int i=1/0;
+            int i = 1 / 0;
             TimeUnit.SECONDS.sleep(11);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         logger.info("结束" + j);
+    }
+
+    //    @Transactional
+    public void testAll() {
+        //不走事物
+//        test();
+        //使用代理类，调用方法,会走事物
+        ((UserServiceImpl) AopContext.currentProxy()).test();
     }
 }

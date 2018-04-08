@@ -35,4 +35,6 @@ public interface IUserService {
     Object getAll();
 
     void test();
+
+    void testAll();
 }
