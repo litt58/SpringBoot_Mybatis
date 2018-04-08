@@ -57,7 +57,12 @@ public class UsrService1 implements IUserService {
     }
 
     @Override
-    public void testAll() {
+    public void test1() {
+
+    }
+
+    @Override
+    public void test2() {
 
     }
 }

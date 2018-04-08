@@ -36,5 +36,7 @@ public interface IUserService {
 
     void test();
 
-    void testAll();
+    void test1();
+
+    void test2();
 }

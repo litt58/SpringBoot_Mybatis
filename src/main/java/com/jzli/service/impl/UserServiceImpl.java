@@ -115,11 +115,18 @@ public class UserServiceImpl implements IUserService {
         logger.info("结束" + j);
     }
 
-    //    @Transactional
-    public void testAll() {
+    public void test1() {
         //不走事物
 //        test();
         //使用代理类，调用方法,会走事物
         ((UserServiceImpl) AopContext.currentProxy()).test();
+    }
+
+    @Transactional
+    /**
+     * Spring的事务传播策略在内部方法调用时将不起作用，需要在调用处的方法加上事务
+     */
+    public void test2() {
+        test();
     }
 }

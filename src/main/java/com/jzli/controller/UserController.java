@@ -35,12 +35,12 @@ class UserController {
     @Autowired
     private List<IUserService> list;
     @Autowired
-    private Map<String,IUserService> map;
+    private Map<String, IUserService> map;
 
     @RequestMapping("/welcome")
     @ApiOperation(value = "欢迎", httpMethod = "GET", notes = "欢迎")
     public String welcome() {
-//        userService.testAll();
+        userService.test2();
         return "welcome";
     }
 
