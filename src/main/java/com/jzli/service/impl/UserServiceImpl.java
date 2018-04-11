@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.jzli.bean.User;
 import com.jzli.mapper.UserMapper;
 import com.jzli.service.IUserService;
+import com.jzli.util.RedisUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.AopContext;
@@ -32,12 +33,28 @@ public class UserServiceImpl implements IUserService {
     private int i = 1;
 
     @Autowired
+    private RedisUtils redisUtils;
+
+    @Autowired
     private UserMapper userMapper;
 
     public User getUserById(int id) {
         System.err.println("没有走缓存！" + id);
         User user = userMapper.getUserById(id);
+        redisUtils.set(id + "", id + "");
         return user;
+//        boolean b = RedisUtils.tryGetDistributedLock("" + id, "" + id, 1000);
+//        if (b) {
+//            try {
+//                User user = userMapper.getUserById(id);
+//                return user;
+//            } finally {
+//                RedisUtils.releaseDistributedLock("" + id, "" + id);
+//            }
+//        } else {
+//            return null;
+//        }
+//        return null;
     }
 
 

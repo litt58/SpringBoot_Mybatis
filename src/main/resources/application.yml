@@ -40,12 +40,13 @@ spring:
     #监控端登录用户名密码
     loginUsername: admin
     loginPassword: jzli
-#redis配置
+  #redis配置
   redis:
     host: localhost
     port: 6379
     timeout: 3000
     pool:
+      min-idle: 0
       max-idle: 300
       max-total: 1000
       max-wait: 1000
