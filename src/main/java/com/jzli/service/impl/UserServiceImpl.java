@@ -41,27 +41,23 @@ public class UserServiceImpl implements IUserService {
     public User getUserById(int id) {
         System.err.println("没有走缓存！" + id);
         User user = userMapper.getUserById(id);
-        redisUtils.set(id + "", id + "");
         return user;
-//        boolean b = RedisUtils.tryGetDistributedLock("" + id, "" + id, 1000);
-//        if (b) {
-//            try {
-//                User user = userMapper.getUserById(id);
-//                return user;
-//            } finally {
-//                RedisUtils.releaseDistributedLock("" + id, "" + id);
-//            }
-//        } else {
-//            return null;
-//        }
-//        return null;
     }
 
 
     @Transactional
     public User updateUserCountById(int id) {
-        userMapper.updateUserCountById(id);
-        return getUserById(id);
+        boolean b = redisUtils.tryGetDistributedLock("" + id, "" + id, 1000 * 60 * 60);
+        if (b) {
+            try {
+                userMapper.updateUserCountById(id);
+                return getUserById(id);
+            } finally {
+                redisUtils.releaseDistributedLock("" + id, "" + id);
+            }
+        } else {
+            return null;
+        }
     }
 
 

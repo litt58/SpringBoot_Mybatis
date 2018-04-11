@@ -1,9 +1,11 @@
 package com.jzli.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.BoundValueOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+import redis.clients.jedis.JedisPool;
+
+import java.util.Collections;
 
 /**
  * =======================================================
@@ -28,6 +30,9 @@ public class RedisUtils {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
+    @Autowired
+    private JedisPool jedisPool;
+
     /**
      * 尝试获取分布式锁
      *
@@ -37,16 +42,15 @@ public class RedisUtils {
      * @return 是否获取成功
      */
     public boolean tryGetDistributedLock(String lockKey, String requestId, int expireTime) {
-//        String result = jedis.set(lockKey, requestId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, expireTime);
-//        if (LOCK_SUCCESS.equals(result)) {
-//            return true;
-//        }
+        String result = jedisPool.getResource().set(lockKey, requestId, SET_IF_NOT_EXIST, SET_WITH_EXPIRE_TIME, expireTime);
+        if (LOCK_SUCCESS.equals(result)) {
+            return true;
+        }
         return false;
     }
 
     public void set(String key, String value) {
-        BoundValueOperations<String, String> ops = redisTemplate.boundValueOps(key);
-        ops.set(value);
+        jedisPool.getResource().set(key, value);
     }
 
     /**
@@ -57,11 +61,11 @@ public class RedisUtils {
      * @return 是否释放成功
      */
     public boolean releaseDistributedLock(String lockKey, String requestId) {
-//        String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
-//        Object result = jedis.eval(script, Collections.singletonList(lockKey), Collections.singletonList(requestId));
-//        if (RELEASE_SUCCESS.equals(result)) {
-//            return true;
-//        }
+        String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+        Object result = jedisPool.getResource().eval(script, Collections.singletonList(lockKey), Collections.singletonList(requestId));
+        if (RELEASE_SUCCESS.equals(result)) {
+            return true;
+        }
         return false;
     }
 }

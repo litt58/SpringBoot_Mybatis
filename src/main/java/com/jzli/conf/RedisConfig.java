@@ -3,6 +3,7 @@ package com.jzli.conf;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -14,6 +15,7 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 
@@ -21,8 +23,18 @@ import redis.clients.jedis.JedisPoolConfig;
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
 
-    @Bean
+    @Value("${spring.redis.host}")
+    private String host;
+    @Value("${spring.redis.port}")
+    private int port;
+    @Value("${spring.redis.timeout}")
+    private int timeout;
+    @Value("${spring.redis.pool.max-idle}")
+    private int maxIdle;
+    @Value("${spring.redis.pool.max-wait}")
+    private long maxWaitMillis;
 
+    @Bean
     public KeyGenerator keyGenerator() {
         return (target, method, params) -> {
             StringBuilder sb = new StringBuilder();
@@ -46,21 +58,28 @@ public class RedisConfig extends CachingConfigurerSupport {
     }
 
     @Bean
-//    @ConfigurationProperties(prefix = "spring.redis")
     public JedisPoolConfig getRedisConfig() {
         JedisPoolConfig config = new JedisPoolConfig();
+        config.setMaxIdle(maxIdle);
+        config.setMaxWaitMillis(maxWaitMillis);
         return config;
     }
 
     @Bean
-//    @ConfigurationProperties(prefix = "spring.redis")
     public JedisConnectionFactory getConnectionFactory() {
         JedisConnectionFactory factory = new JedisConnectionFactory();
         JedisPoolConfig config = getRedisConfig();
         factory.setPoolConfig(config);
-        System.out.println(factory.getUsePool());
         return factory;
     }
+
+    @Bean
+    public JedisPool redisPoolFactory() {
+        JedisPoolConfig jedisPoolConfig = getRedisConfig();
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, timeout);
+        return jedisPool;
+    }
+
 
     @Bean
     public RedisTemplate<?, ?> getRedisTemplate() {
