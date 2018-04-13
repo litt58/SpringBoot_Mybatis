@@ -8,7 +8,6 @@ import com.jzli.service.IUserService;
 import com.jzli.util.RedisUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -31,6 +30,12 @@ import java.util.concurrent.TimeUnit;
 public class UserServiceImpl implements IUserService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     private int i = 1;
+
+    /**
+     * 出现Spring循环依赖问题
+     */
+    @Autowired
+    private IUserService userService;
 
     @Autowired
     private RedisUtils redisUtils;
@@ -133,9 +138,11 @@ public class UserServiceImpl implements IUserService {
      */
     public void test1() {
         //不走事物
-//        test();
+        test();
+        //使用Spring注入的代理类，可以走事物
+        userService.test();
         //使用代理类，调用方法,会走事物
-        ((UserServiceImpl) AopContext.currentProxy()).test();
+//        ((UserServiceImpl) AopContext.currentProxy()).test();
     }
 
     @Transactional
